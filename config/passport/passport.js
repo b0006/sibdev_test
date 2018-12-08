@@ -69,7 +69,8 @@ module.exports = function(passport, user) {
         done(null, {
             id: user.id,
             pid: user.pid,
-            name: user.name
+            name: user.name,
+            role: user.role
         });
     });
 

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    h1= title
+    h3= result_create
+
+    form(action='new_task', method='post')
+        input(type='hidden', name='parent', value=user_id)
+        .uk-margin
+            .uk-inline
+                span.uk-form-icon(uk-icon='icon: tag')
+                |
+                input.uk-input(name='title', type='text', placeholder='Название')
+        .uk-margin
+            .uk-inline
+                span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: calendar')
+                input.uk-input(type='date')
+
+        .uk-margin
+            .uk-inline
+                select.uk-select(name='responsible')
+                    each val in JSON.parse(users)
+                        option(value=val.id)= val.name
+        .uk-margin
+            .uk-inline
+                input.uk-button.uk-button-default(type='submit', value='Создать')
+
+
+
+

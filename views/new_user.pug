@@ -1,13 +1,14 @@
-extends ../layout
+extends layout
 
 block content
     h1= title
-    h3= errorRegisterMessage
+    h3= result_create
 
-    form(action='signup', method='post')
+    form(action='new_user', method='post')
+        input(type='hidden', name='parent', value=user_id)
         .uk-margin
             .uk-inline
-                span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: user')
+                span.uk-form-icon(uk-icon='icon: user')
                 |
                 input.uk-input(name='name', type='text', placeholder='Имя')
         .uk-margin
@@ -15,7 +16,6 @@ block content
                 span.uk-form-icon(uk-icon='icon: mail')
                 |
                 input.uk-input(name='email', type='email', placeholder='Email')
-        |
         .uk-margin
             .uk-inline
                 span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: lock')
@@ -23,4 +23,13 @@ block content
                 input.uk-input(name='password', type='password', placeholder='Пароль')
         .uk-margin
             .uk-inline
-                input.uk-button.uk-button-default(type='submit' value='Зарегистрироваться')
+                select.uk-select(name='role')
+                    each val in JSON.parse(roles)
+                        option(value=val.id)= val.title
+        .uk-margin
+            .uk-inline
+                input.uk-button.uk-button-default(type='submit', value='Создать')
+
+
+
+

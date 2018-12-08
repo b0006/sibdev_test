@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
         res.render('index', {
             title: 'Главная',
             user_name: user.name,
-            auth: true
+            auth: true,
+            role: user.role
         });
     }
     else {
@@ -19,21 +20,5 @@ router.get('/', function(req, res, next) {
         });
     }
 });
-
-router.get('/main', isLoggedIn, function(req, res, next) {
-    let user = req.session.passport.user;
-    res.render('main', {
-        title: 'Рабочее место',
-        user_name: user.name,
-        auth: true
-    });
-});
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}
 
 module.exports = router;

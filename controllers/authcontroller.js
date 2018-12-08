@@ -14,7 +14,7 @@ module.exports.signup_post = function(req, res, next) {
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
-            return res.redirect('/main');
+            return res.redirect('/');
         });
     })(req, res, next);
 }
@@ -34,7 +34,7 @@ module.exports.signin_post = function(req, res,next) {
 
         req.logIn(user, function(err) {
             if (err) { return next(err); }
-            return res.redirect('/main');
+            return res.redirect('/');
         });
     })(req, res, next);
 };

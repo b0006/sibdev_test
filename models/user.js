@@ -27,6 +27,11 @@ module.exports = function(sequelize, Sequelize) {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 defaultValue: -1
+            },
+            role: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                defaultValue: 1
             }
         },
         {
@@ -35,6 +40,11 @@ module.exports = function(sequelize, Sequelize) {
             timestamps: true
         }
     );
+
+    // User.associate = function(models) {
+    //     // User.belongsTo(models.role, {as: "r", primaryKey: 'id', targetKey: 'id'});
+    //     User.hasMany(models.role, {as: "r", primaryKey: 'id', targetKey: 'role'});
+    // };
 
     return User;
 

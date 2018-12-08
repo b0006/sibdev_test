@@ -11,8 +11,24 @@ html
               ul.uk-navbar-nav
                   li
                       a(href='/') Главная
-                  li
-                      a(href='/main') Рабочее место
+                  if(auth && role === 1)
+                      li
+                          a(href='#') Управление
+                          .uk-navbar-dropdown
+                              ul.uk-nav.uk-navbar-dropdown-nav
+                                  li
+                                      a(href='/new_user') Создать пользователя
+                                  li
+                                      a(href='/admin_tree') Редактировать дерево организации
+                  if(auth)
+                      li
+                          a(href='#') Задачи
+                          .uk-navbar-dropdown
+                              ul.uk-nav.uk-navbar-dropdown-nav
+                                  li
+                                      a(href='/new_task') Создать
+                                  li
+                                      a(href='/get_tasks') Просмотр
                   if(!auth)
                       li
                           a(href='/signin') Авторизация
@@ -21,7 +37,9 @@ html
           .uk-navbar-right
               if(auth)
                   ul.uk-navbar-nav
-                      li Привет, #{user_name}
+                      li #{user_name}
+                      if(is_admin)
+                          | (Администратор)
                       a(href='/logout') Выйти
 
 
