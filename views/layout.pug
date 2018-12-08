@@ -9,15 +9,19 @@ html
       nav.uk-navbar-container(uk-navbar='')
           .uk-navbar-left
               ul.uk-navbar-nav
-                  li.uk-active
+                  li
                       a(href='/') Главная
-                  li.uk-active
-                      a(href='/signin') Авторизация
-                  li.uk-active
-                      a(href='/signup') Регистрация
+                  li
+                      a(href='/main') Рабочее место
+                  if(!auth)
+                      li
+                          a(href='/signin') Авторизация
+                      li
+                          a(href='/signup') Регистрация
           .uk-navbar-right
-              ul.uk-navbar-nav
-                  li.uk-active
+              if(auth)
+                  ul.uk-navbar-nav
+                      li Привет, #{user_name}
                       a(href='/logout') Выйти
 
 

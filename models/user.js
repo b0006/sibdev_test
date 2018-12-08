@@ -14,14 +14,19 @@ module.exports = function(sequelize, Sequelize) {
                 },
                 allowNull: false
             },
+            name: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
             password: {
                 type: Sequelize.STRING,
                 notEmpty: true,
                 allowNull: false
             },
-            role: {
+            pid: {
                 type: Sequelize.INTEGER,
-                allowNull: false
+                allowNull: false,
+                defaultValue: -1
             }
         },
         {

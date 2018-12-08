@@ -7,6 +7,11 @@ block content
     form(action='signup', method='post')
         .uk-margin
             .uk-inline
+                span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: user')
+                |
+                input.uk-input(name='name' type='text')
+        .uk-margin
+            .uk-inline
                 span.uk-form-icon(uk-icon='icon: mail')
                 |
                 input.uk-input(name='email' type='email')

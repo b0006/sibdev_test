@@ -43,7 +43,8 @@ module.exports = function(passport, user) {
                         {
                             email: email,
                             password: userPassword,
-                            role: 0
+                            pid: -1,
+                            name: req.body.name
                         };
 
                     User.create(data).then(function(newUser, created) {
@@ -65,12 +66,16 @@ module.exports = function(passport, user) {
 
     //serialize
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, {
+            id: user.id,
+            pid: user.pid,
+            name: user.name
+        });
     });
 
     // deserialize user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id).then(function(user) {
+    passport.deserializeUser(function(user, done) {
+        User.findByPk(user.id).then(function(user) {
             if (user) {
                 done(null, user.get());
             } else {
@@ -102,8 +107,6 @@ module.exports = function(passport, user) {
                     email: email
                 }
             }).then(function(user) {
-
-                console.log(user)
 
                 if (!user) {
                     return done(null, false, {

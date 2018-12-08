@@ -4,6 +4,7 @@ let app = express();
 let passport = require('passport');
 let path = require('path');
 let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
 let session = require('express-session');
 let logger = require('morgan');
 let http = require('http').Server(app);
@@ -22,15 +23,15 @@ require('./config/passport/passport.js')(passport, models.user);
 // For Passport
 app.use(session({
     // store: new RedisStore({
-    //     url: "redis://localhost",
+    //     url: 'redis://localhost',
     // }),
-    secret: "punks not dead",
+    secret: 'punks not dead',
     resave: true, // saved new sessions
     saveUninitialized: true, // do not automatically write to the session store
     cookie: {
         maxAge: new Date(Date.now() + 3600000),
         expires: new Date(Date.now() + 3600000)
-    },
+    }
 }));
 
 app.use(passport.initialize());
@@ -42,6 +43,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -72,9 +74,9 @@ models.sequelize.sync().then(function() {
         console.log('listening on *: ' + port);
     });
 
-    console.log('Nice! Database looks fine')
+    console.log('Nice! Database looks fine');
 }).catch(function(err) {
-    console.log(err, "Something went wrong with the Database Update!")
+    console.log(err, 'Something went wrong with the Database Update!');
 });
 
 module.exports = app;
