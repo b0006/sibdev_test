@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    h1= title
+    h3= errorRegisterMessage
+
+    form(action='signup', method='post')
+        .uk-margin
+            .uk-inline
+                span.uk-form-icon(uk-icon='icon: mail')
+                |
+                input.uk-input(name='email' type='email')
+        |
+        .uk-margin
+            .uk-inline
+                span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: lock')
+                |
+                input.uk-input(name='password' type='password')
+        .uk-margin
+            .uk-inline
+                input.uk-button.uk-button-default(type='submit' value='Зарегистрироваться')

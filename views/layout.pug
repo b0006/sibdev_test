@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='/css/uikit.min.css')
+    link(rel='stylesheet', href='/css/uikit-rtl.min.css')
+  body
+      nav.uk-navbar-container(uk-navbar='')
+          .uk-navbar-left
+              ul.uk-navbar-nav
+                  li.uk-active
+                      a(href='/') Главная
+                  li.uk-active
+                      a(href='/signin') Авторизация
+                  li.uk-active
+                      a(href='/signup') Регистрация
+          .uk-navbar-right
+              ul.uk-navbar-nav
+                  li.uk-active
+                      a(href='/logout') Выйти
+
+
+      div.uk-container
+        block content
+
+  script(src="/js/uikit.min.js")
+  script(src="/js/uikit-icons.min.js")

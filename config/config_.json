@@ -1,0 +1,16 @@
+{
+  "database": {
+    "username": "root",
+    "password": "123456",
+    "database": "db_name",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "email": {
+    "service": "Gmail",
+    "auth": {
+      "user": "gmail@gmail.com",
+      "pass": "12345678"
+    }
+  }
+}
