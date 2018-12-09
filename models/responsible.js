@@ -1,29 +1,17 @@
 module.exports = function(sequelize, Sequelize) {
 
-	const Task = sequelize.define('task',
+	const Responsible = sequelize.define('responsible',
 		{
 			id: {
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			id_creater: {
+			owner_id: {
 				type: Sequelize.INTEGER,
-				allowNull: false,
-			},
-			title: {
-				type: Sequelize.STRING,
-				allowNull: false,
-			},
-			deadline: {
-				type: Sequelize.DATE,
 				allowNull: false
 			},
-			file: {
-				type: Sequelize.STRING,
-				allowNull: true
-			},
-			responsible: {
+			res_id: {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			}
@@ -35,6 +23,5 @@ module.exports = function(sequelize, Sequelize) {
 		}
 	);
 
-	return Task;
-
+	return Responsible;
 };
