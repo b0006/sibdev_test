@@ -9,6 +9,7 @@ router.get('/', function(req, res) {
 		res.render('index', {
 			title: 'Главная',
 			user_name: user.name,
+			user_id: user.id,
 			auth: true,
 			role: user.role
 		});
@@ -21,19 +22,6 @@ router.get('/', function(req, res) {
 	}
 });
 
-router.get('/admin_tree', userController.isLoggedIn, userController.isAdmin, function (req, res) {
-	let user = req.session.passport.user;
-
-	userController.get_users().then(users => {
-		res.render('admin_tree', {
-			title: 'Управление структурой',
-			user_name: user.name,
-			user_id: user.id,
-			auth: true,
-			role: user.role,
-			users: JSON.stringify(users)
-		});
-	});
-});
+router.get('/admin_tree', userController.isLoggedIn, userController.isAdmin, userController.admin_tree);
 
 module.exports = router;

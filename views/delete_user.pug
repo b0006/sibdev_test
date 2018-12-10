@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1= title
+    h3= result_delete
+
+    form(action='delete_user', method='post')
+        input(type='hidden', name='admin_id', value=user_id)
+        .uk-margin
+            .uk-inline
+                select.uk-select(name='user_id')
+                    each val in JSON.parse(users)
+                        if(user_id !== val.id)
+                            option(value=val.id)= val.name
+        .uk-margin
+            .uk-inline
+                input.uk-button.uk-button-default(type='submit', value='Удалить')
+
+
+
+

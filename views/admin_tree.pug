@@ -3,26 +3,34 @@ extends layout
 block content
     h1= title
 
+    h3 Дерево сотрудников
+    p !{tree}
+
     each user in JSON.parse(users)
         if(user.id !== user_id)
             div
                 .uk-card.uk-card-hover.uk-card-body
-                    form(action='/set_owner', method='post')
-                        input(type='hidden', name='owner_id', value=user.id)
-                        h3.uk-card-title= user.name
+                    h3.uk-card-title= user.name
+                    a.uk-link(href='/user_task?id=' + user.id) Задачи
 
-                        h5 Подчиненные
+                    h4 Текущий наставник:
                         each us in JSON.parse(users)
-                            if(us.id !== user.id)
-                                if(us.role !== 1)
-                                    .uk-margin
-                                        .uk-inline
-                                            label
-                                                input.uk-checkbox(type='checkbox', name='res_id', value=us.id)
-                                                label= us.name
+                            if(us.id === user.pid)
+                                | #{us.name}
+
+                    form(action='/change_owner', method='post')
+                        input(type='hidden', name='user_id', value=user.id)
+                        span Новый наставник
+                        select.uk-select(name='pid')
+                            each us in JSON.parse(users)
+                                if(us.id !== user.id)
+                                    option(value=us.id)= us.name
                         .uk-margin
-                            .uk-inline
-                                input.uk-button.uk-button-default(type='submit', value='Изменить')
+                             .uk-inline
+                                input.uk-button.uk-button-default(type='submit', value='Сменить наставника')
+
+
+
 
 
 

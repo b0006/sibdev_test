@@ -4,7 +4,7 @@ block content
     h1= title
     h3= result_create
 
-    form(action='new_task', method='post')
+    form(action='new_task', method='post', encType='multipart/form-data')
         input(type='hidden', name='parent', value=user_id)
         .uk-margin
             .uk-inline
@@ -14,17 +14,22 @@ block content
         .uk-margin
             .uk-inline
                 span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: calendar')
-                input.uk-input(type='date')
-
+                input.uk-input(type='date', name='deadline_date')
+        .uk-margin
+            .uk-inline
+                span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: clock')
+                input.uk-input(type='time', name='deadline_time')
         .uk-margin
             .uk-inline
                 select.uk-select(name='responsible')
+                    option(value=user_id)= user_name
                     each val in JSON.parse(users)
                         option(value=val.id)= val.name
         .uk-margin
             .uk-inline
+                div(uk-form-custom='target: true')
+                    input(type='file', name='sampleFile')
+                    input.uk-input.uk-form-width-medium(type='text' placeholder='Выберите файл' disabled='')
+        .uk-margin
+            .uk-inline
                 input.uk-button.uk-button-default(type='submit', value='Создать')
-
-
-
-

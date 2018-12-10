@@ -5,7 +5,6 @@ block content
     h3= result_create
 
     form(action='new_user', method='post')
-        input(type='hidden', name='parent', value=user_id)
         .uk-margin
             .uk-inline
                 span.uk-form-icon(uk-icon='icon: user')
@@ -23,6 +22,13 @@ block content
                 input.uk-input(name='password', type='password', placeholder='Пароль')
         .uk-margin
             .uk-inline
+                span Наставник
+                select.uk-select(name='parent')
+                     each val in JSON.parse(users)
+                         option(value=val.id)= val.name
+        .uk-margin
+            .uk-inline
+                span Роль
                 select.uk-select(name='role')
                     each val in JSON.parse(roles)
                         option(value=val.id)= val.title

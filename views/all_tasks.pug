@@ -1,0 +1,50 @@
+extends layout
+
+block content
+    h1= title
+
+    each task in JSON.parse(tasks)
+        div
+            .uk-card.uk-card-hover.uk-card-body
+                form(action='/change_task', method='post', encType='multipart/form-data')
+                    input(type='hidden', name='id_task', value=task.id)
+                    input(type='hidden', name='parent', value=task.id_creater)
+                    h3.uk-card-title Испольнитель: !{task.respon}
+                    if((task.id_creater === task.responsible) || (task.responsible !== user_id) || role === 1)
+                        .uk-margin
+                            .uk-inline
+                                span Ответственный
+                                select.uk-select(name='responsible')
+                                    if(task.id_creater === task.responsible)
+                                        option(value=task.id_creater)= task.respon
+                                    each us in JSON.parse(users)
+                                        option(value=us.id)= us.name
+                    .uk-margin
+                        .uk-inline
+                            span Название
+                            input.uk-input(type='text', name='title', value=task.title)
+                    .uk-margin
+                        .uk-inline
+                            span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: calendar')
+                            input.uk-input(type='date', name='deadline_date', value=task.date)
+                    .uk-margin
+                        .uk-inline
+                            span.uk-form-icon.uk-form-icon-flip(uk-icon='icon: clock')
+                            input.uk-input(type='time', name='deadline_time', value=task.time)
+                    if(task.file !== null)
+                        - const file_name = decodeURI(task.file).split('/');
+                        .uk-margin
+                            .uk-inline
+                                span Текущий файл
+                                br
+                                a(href='/download?path=' + task.file)= file_name.pop()
+                    if((task.id_creater === task.responsible) || (task.responsible !== user_id) || role === 1)
+                        .uk-margin
+                            .uk-inline
+                                span Новый файл
+                                div(uk-form-custom='target: true')
+                                    input(type='file', name='sampleFile')
+                                    input.uk-input.uk-form-width-medium(type='text' placeholder='Выберите файл' disabled='')
+                        .uk-margin
+                            .uk-inline
+                                input.uk-button.uk-button-default(type='submit', value='Изменить')

@@ -19,6 +19,8 @@ html
                                   li
                                       a(href='/new_user') Создать пользователя
                                   li
+                                      a(href='/delete_user') Удалить пользователя
+                                  li
                                       a(href='/admin_tree') Редактировать дерево организации
                   if(auth)
                       li
@@ -28,12 +30,12 @@ html
                                   li
                                       a(href='/new_task') Создать
                                   li
-                                      a(href='/get_tasks') Просмотр
+                                      a(href='/all_tasks') Все задачи
                   if(!auth)
                       li
                           a(href='/signin') Авторизация
-                      li
-                          a(href='/signup') Регистрация
+                      //li
+                      //    a(href='/signup') Регистрация
           .uk-navbar-right
               if(auth)
                   ul.uk-navbar-nav

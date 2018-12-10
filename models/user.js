@@ -41,10 +41,9 @@ module.exports = function(sequelize, Sequelize) {
 		}
 	);
 
-	// User.associate = function(models) {
-	//     // User.belongsTo(models.role, {as: "r", primaryKey: 'id', targetKey: 'id'});
-	//     User.hasMany(models.role, {as: "r", primaryKey: 'id', targetKey: 'role'});
-	// };
+	User.associate = function(models) {
+	    User.hasMany(models.responsible, {as: 'res', primaryKey: 'id', targetKey: 'userId'});
+	};
 
 	return User;
 

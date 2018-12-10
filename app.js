@@ -9,11 +9,13 @@ const session = require('express-session');
 const logger = require('morgan');
 const http = require('http').Server(app);
 const port = process.env.PORT || 3000;
+const fileUpload = require('express-fileupload');
 
 //routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const tasksRouter = require('./routes/tasks');
+const responRouter = require('./routes/respon');
 
 //Models
 const models = require('./models/');
@@ -48,10 +50,12 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', tasksRouter);
+app.use('/', responRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -35,6 +35,11 @@ module.exports = function(sequelize, Sequelize) {
 		}
 	);
 
+	Task.associate = function(models) {
+		Task.belongsTo(models.user, {as: 'creater', foreignKey: 'id_creater', targetKey: 'id'});
+		Task.belongsTo(models.user, {as: 'respon', foreignKey: 'responsible', targetKey: 'id'});
+	};
+
 	return Task;
 
 };
