@@ -2,16 +2,14 @@ const bCrypt = require('bcrypt-nodejs');
 
 module.exports = function(passport, user) {
 
-	// инициализируем локальную стратегию паспорта и модель пользователя
 	let User = user;
 	let LocalStrategy = require('passport-local').Strategy;
 
-	// определяем нашу пользовательскую стратегию с нашим экземпляром LocalStrategy
 	passport.use('local-signup', new LocalStrategy(
 		{
 			usernameField: 'email',
 			passwordField: 'password',
-			passReqToCallback: true // allows us to pass back the entire request to the callback
+			passReqToCallback: true
 		},
 
 		function(req, email, hash, done) {
@@ -19,7 +17,6 @@ module.exports = function(passport, user) {
 				return bCrypt.hashSync(hash, bCrypt.genSaltSync(8), null);
 			};
 
-			//проверим email И логин на уникальность
 			User.findOne({
 				where: {
 					email: email
@@ -40,7 +37,8 @@ module.exports = function(passport, user) {
                         	email: email,
                         	password: userPassword,
                         	pid: -1,
-                        	name: req.body.name
+                        	name: req.body.name,
+                        	role: 1
                         };
 
 					User.create(data).then(function(newUser, created) {
@@ -60,7 +58,6 @@ module.exports = function(passport, user) {
 		}
 	));
 
-	//serialize
 	passport.serializeUser(function(user, done) {
 		done(null, {
 			id: user.id,
@@ -70,7 +67,6 @@ module.exports = function(passport, user) {
 		});
 	});
 
-	// deserialize user
 	passport.deserializeUser(function(user, done) {
 		User.findByPk(user.id).then(function(user) {
 			if (user) {
@@ -81,7 +77,6 @@ module.exports = function(passport, user) {
 		});
 	});
 
-	//LOCAL SIGNIN
 	passport.use('local-signin', new LocalStrategy(
 		{
 			// by default, local strategy uses username and password, we will override with email

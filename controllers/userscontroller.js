@@ -49,9 +49,22 @@ function new_user (name, email, password, parent, role){
 	});
 };
 
+module.exports.get_user = function (user_id) {
+	return model.user.findOne({
+		attributes: ['id', 'name', 'role', 'pid', 'email'],
+		where: {
+			id: user_id
+		}
+	}).then(user => {
+		return user;
+	}).catch(err => {
+		console.log(err);
+	});
+};
+
 function get_users() {
 	return model.user.findAll({
-		attributes: ['id', 'name', 'role', 'pid'],
+		attributes: ['id', 'name', 'role', 'pid', 'email'],
 		include:
             {
             	model: model.responsible,

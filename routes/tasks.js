@@ -12,4 +12,8 @@ router.post('/change_task', userController.isLoggedIn, taskController.new_task_p
 
 router.get('/download', userController.isLoggedIn, taskController.download_file);
 
+router.get('/delete_task', userController.isLoggedIn, taskController.delete_task);
+
+router.get('/user_task', userController.isLoggedIn, userController.isAdmin, taskController.get_user_tasks);
+
 module.exports = router;

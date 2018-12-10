@@ -4,6 +4,16 @@ const userController = require('../controllers/userscontroller');
 const model = require('../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const nodemailer = require('nodemailer');
+const config_db = require(path.join(__dirname, '..', 'config', 'config.json'))['email'];
+
+const smtpTransport = nodemailer.createTransport({
+	service: config_db.service,
+	auth: {
+		user: config_db.auth.user,
+		pass: config_db.auth.pass
+	}
+});
 
 module.exports.new_task = function(req, res) {
 	let user = req.session.passport.user;
@@ -96,6 +106,9 @@ module.exports.new_task_post = function (req, res) {
 			console.log(err);
 		});
 	}
+
+	send_mail(form_data.responsible, form_data.title);
+
 };
 
 module.exports.all_tasks_get = function (req, res) {
@@ -224,21 +237,97 @@ module.exports.download_file = function(req, res) {
 	res.download(path);
 };
 
-module.exports.change_task = function (req, res) {
-	const form_data = req.body;
+module.exports.delete_task = function (req, res) {
+	const task_id = req.query.id;
 
-	res.redirect('/all_tasks');
+	model.task.destroy({
+		where: {
+			id: task_id
+		}
+	}).then(result => {
+		res.redirect('/all_tasks');
+	}).catch(err => {
+		console.log(err);
+	});
 };
 
-function get_tasks(user_id) {
-	return model.task.findAll({
-		where: {
-			responsible: user_id
-		}
-	}).then(tasks => {
-		return tasks.map(item => item.dataValues);
+module.exports.get_user_tasks = function (req, res) {
+	const user = req.session.passport.user;
+	const user_id = req.query.id;
+
+	const tasks_db = model.task.findAll(
+		{
+			where: {
+				responsible: user_id
+			},
+			include: [{ all: true, nested: true }]}
+	).then(result => {
+		let tasks = [];
+		let task = [];
+
+		let date_dead = null;
+		let date = null;
+		let time = null;
+		let hours = null;
+
+		result.map(item => {
+			task = item.dataValues;
+
+			date_dead = new Date(task.deadline);
+			date = date_dead.getFullYear() + '-' + (date_dead.getMonth() + 1) + '-' + date_dead.getDate();
+
+			hours = date_dead.getHours();
+			if(hours >= 0 && hours <= 9){
+				hours = '0' + hours;
+			}
+			time = hours + ':' + date_dead.getMinutes();
+			task.time = time;
+			task.date = date;
+
+			task.creater = task.creater.dataValues.name;
+			task.respon = task.respon.dataValues.name;
+
+			tasks.push(task);
+		});
+
+		return tasks;
+	}).catch(err => {
+		console.log(err);
+	});
+
+	tasks_db.then(tasks => {
+		userController.get_users().then(users => {
+			res.render('all_tasks', {
+				title: 'Задачи',
+				user_name: user.name,
+				user_id: user.id,
+				role: user.role,
+				auth: true,
+				pid: user.pid,
+				tasks: JSON.stringify(tasks),
+				users: JSON.stringify(users)
+			});
+		});
+	});
+};
+
+function send_mail(user_id, task_title) {
+
+	userController.get_user(user_id).then(user => {
+		let mailOptions={
+			to : user.email,
+			subject : 'Новая задача',
+			html : 'Здравствуйте, ' + user.name + '.<br><p>Поставлена новая задача: ' + task_title + '</p>'
+		};
+
+		smtpTransport.sendMail(mailOptions, function(error, response) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log('На Ваш email отправлено сообщение. Пожалуйста, прочтите его.');
+			}
+		});
 	}).catch(err => {
 		console.log(err);
 	});
 }
-
