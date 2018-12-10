@@ -15,7 +15,7 @@ const fileUpload = require('express-fileupload');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const tasksRouter = require('./routes/tasks');
-const responRouter = require('./routes/respon');
+// const responRouter = require('./routes/respon');
 
 //Models
 const models = require('./models/');
@@ -55,25 +55,22 @@ app.use(fileUpload());
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/', tasksRouter);
-app.use('/', responRouter);
+// app.use('/', responRouter);
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	next(createError(404));
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-	// set locals, only providing error in development
+
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-	// render the error page
+
 	res.status(err.status || 500);
 	res.render('error');
 });
 
-//Sync Database
 models.sequelize.sync().then(function() {
 
 	http.listen(port, function() {
@@ -84,5 +81,3 @@ models.sequelize.sync().then(function() {
 }).catch(function(err) {
 	console.log(err, 'Something went wrong with the Database Update!');
 });
-
-// module.exports = app;
