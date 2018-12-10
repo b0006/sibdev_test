@@ -1,0 +1,16 @@
+{
+  "database": {
+    "username": "sql2269025",
+    "password": "eK8!yE5!",
+    "database": "sql2269025",
+    "host": "sql2.freemysqlhosting.net",
+    "dialect": "mysql"
+  },
+  "email": {
+    "service": "Gmail",
+    "auth": {
+      "user": "qsefthuken@gmail.com",
+      "pass": "13820004"
+    }
+  }
+}
